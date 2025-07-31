@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/payment page/payment.css" />
 </head>
 <body>
-   <header class="main-header">
+  <header class="main-header">
     <div class="logo-section">
       <span class="logo-icon">📦</span>
       <span class="logo-text">C³</span>
@@ -19,13 +19,14 @@
       <a href="../track delivery/track-delivery.html">Track Delivery</a>
       <a href="../messages/index.html">Messages</a>
       <a href="../profile/profile.html">Profile</a>
-      <a href="../payment page/payment.html"class="active">Payment</a>
+      <a href="../payment page/payment.html" class="active">Payment</a>
       <a href="../accessibility/accessibility.html">Accessibility</a>
       <a href="../main/main.html">Logout</a>
     </nav>
   </header>
 
-  <main class="payments-container">
+  <!-- Traveler View -->
+  <main class="payments-container" id="traveler-view" style="display: none;">
     <h1>Manage Your Earnings</h1>
     <p class="subheading">Manage your payment methods and track your earnings from deliveries.</p>
 
@@ -88,5 +89,116 @@
       </div>
     </div>
   </main>
+
+  <!-- Requester View -->
+  <main class="payments-container" id="requester-view" style="display: none;">
+    <h1>Manage Your Payments</h1>
+    <p class="subheading">Track your spending and delivery charges.</p>
+
+    <div class="tabs">
+      <span class="tab active">Overview</span>
+      <span class="tab">Payment History</span>
+      <span class="tab">Billing Info</span>
+      <span class="tab">Settings</span>
+    </div>
+
+    <div class="summary-cards">
+      <div class="card">
+        <h3>Total Spent</h3>
+        <p class="amount" id="spent">$0.00</p>
+        <span class="icon green">💳</span>
+      </div>
+      <div class="card">
+        <h3>Pending Payments</h3>
+        <p class="amount" id="pending">$0.00</p>
+        <span class="icon yellow">⏳</span>
+      </div>
+      <div class="card">
+        <h3>This Month</h3>
+        <p class="amount" id="month">$0.00</p>
+        <span class="icon blue">📅</span>
+      </div>
+    </div>
+
+    <div class="recent-payments card">
+      <h2>Recent Charges</h2>
+      <!-- Charges will be dynamically inserted here -->
+    </div>
+  </main>
+
+  <script>
+    const role = localStorage.getItem("userRole");
+    const token = localStorage.getItem("token");
+    const travelerView = document.getElementById("traveler-view");
+    const requesterView = document.getElementById("requester-view");
+
+    const totalElem = document.querySelector("#requester-view .summary-cards .card:nth-child(1) .amount");
+    const pendingElem = document.querySelector("#requester-view .summary-cards .card:nth-child(2) .amount");
+    const monthElem = document.querySelector("#requester-view .summary-cards .card:nth-child(3) .amount");
+    const chargesContainer = document.querySelector("#requester-view .recent-payments");
+
+    let totalSpent = 0;
+    let pendingAmount = 0;
+
+    if (role === "traveler") {
+      travelerView.style.display = "block";
+    } else if (role === "requester") {
+      requesterView.style.display = "block";
+
+      // Add 1 hardcoded payment
+      totalSpent += 35;
+      const hardcoded = document.createElement("div");
+      hardcoded.className = "payment-row";
+      hardcoded.innerHTML = `
+        <div class="info">
+          <p>🎨 Art Supplies Delivery</p>
+          <small>7/25/2025</small>
+        </div>
+        <div class="status">
+          <span class="amount">$35.00</span>
+          <span class="badge completed">Paid</span>
+        </div>
+      `;
+      chargesContainer.appendChild(hardcoded);
+
+      // Load dynamic requests
+      fetch("/api/requests", {
+        headers: { Authorization: "Bearer " + token }
+      })
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(req => {
+          const amount = parseFloat(req.payment) || 0;
+          totalSpent += amount;
+          pendingAmount += amount;
+
+          const row = document.createElement("div");
+          row.className = "payment-row";
+          row.innerHTML = `
+            <div class="info">
+              <p>${req.title || "Untitled Request"}</p>
+              <small>${new Date(req.createdAt).toLocaleDateString()}</small>
+            </div>
+            <div class="status">
+              <span class="amount">$${amount.toFixed(2)}</span>
+              <span class="badge pending">Pending</span>
+            </div>
+          `;
+          chargesContainer.appendChild(row);
+        });
+
+        // Update totals
+        totalElem.textContent = `$${totalSpent.toFixed(2)}`;
+        pendingElem.textContent = `$${pendingAmount.toFixed(2)}`;
+        monthElem.textContent = `$${totalSpent.toFixed(2)}`;
+      })
+      .catch(err => {
+        console.error("Error loading requester charges:", err);
+      });
+    } else {
+      alert("Access denied or unknown role.");
+      window.location.href = "../main/main.html";
+    }
+  </script>
 </body>
 </html>

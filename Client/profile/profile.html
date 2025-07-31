@@ -18,7 +18,7 @@
       <a href="../Browse Requests/browse-requests.html">Browse Requests</a>
       <a href="../track delivery/track-delivery.html">Track Delivery</a>
       <a href="../messages/index.html">Messages</a>
-      <a href="../profile/profile.html"class="active">Profile</a>
+      <a href="../profile/profile.html" class="active">Profile</a>
       <a href="../payment page/payment.html">Payment</a>
       <a href="../accessibility/accessibility.html">Accessibility</a>
       <a href="../main/main.html">Logout</a>
@@ -36,29 +36,29 @@
           <button class="edit-btn">✎ Edit Profile</button>
         </div>
         <div class="user-details">
-          <div class="avatar">SY</div>
+          <div class="avatar" id="avatar">--</div>
           <div>
-            <h3> Hamad<span class="verified">✔️</span></h3>
-            <p class="rating">⭐ 4.8 (23 deliveries)</p>
-            <p class="joined">📅 Joined 1/15/2024</p>
+            <h3 id="profile-name">User <span class="verified">✔️</span></h3>
+            <p class="rating">⭐ <span id="rating">--</span> (<span id="deliveries">--</span> deliveries)</p>
+            <p class="joined">📅 Joined <span id="joined-date">--</span></p>
           </div>
         </div>
         <div class="info-list">
-          <p><strong>Full Name:</strong>  Hamad </p>
-          <p><strong>Email Address:</strong> admin@gmail</p>
-          <p><strong>Phone Number:</strong> +1 (555) 123-4567</p>
-          <p><strong>Location:</strong> San Francisco, CA</p>
-          <p><strong>Bio:</strong> Reliable community member who loves helping others with deliveries. Available most weekdays and weekends.</p>
+          <p><strong>Full Name:</strong> <span id="full-name"></span></p>
+          <p><strong>Email Address:</strong> <span id="email"></span></p>
+          <p><strong>Phone Number:</strong> <span id="phone"></span></p>
+          <p><strong>Location:</strong> <span id="location"></span></p>
+          <p><strong>Bio:</strong> <span id="bio"></span></p>
         </div>
       </section>
 
       <section class="card performance">
         <h2>Performance Stats</h2>
         <ul>
-          <li><strong>Total Deliveries:</strong> 23</li>
-          <li><strong>Average Rating:</strong> 4.8</li>
-          <li><strong>Successful Requests:</strong> 15</li>
-          <li><strong>Response Time:</strong> &lt; 2hrs</li>
+          <li><strong>Total Deliveries:</strong> <span id="deliveries"></span></li>
+          <li><strong>Average Rating:</strong> <span id="rating"></span></li>
+          <li><strong>Successful Requests:</strong> <span id="successful"></span></li>
+          <li><strong>Response Time:</strong> <span id="response-time"></span></li>
         </ul>
       </section>
 
@@ -101,5 +101,97 @@
       </section>
     </div>
   </main>
+
+<script>
+window.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("userRole");
+
+  if (!token || !role) {
+    alert("Please log in first.");
+    return (window.location.href = "../main/main.html");
+  }
+
+  try {
+    const res = await fetch("/api/users/profile", {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    const data = await res.json();
+
+    // ✅ Fill Basic Info
+    document.querySelector(".user-details h3").textContent = data.name;
+    document.querySelector(".info-list").innerHTML = `
+      <p><strong>Full Name:</strong> ${data.name}</p>
+      <p><strong>Email Address:</strong> ${data.email}</p>
+      <p><strong>Phone Number:</strong> ${data.phone || "+1 (555) 000-0000"}</p>
+      <p><strong>Location:</strong> ${role === "requester" ? "Tel Aviv, TLV" : (data.location || "Italy")}</p>
+      <p><strong>Bio:</strong> ${data.bio || "Reliable and friendly user."}</p>
+    `;
+
+    // ✅ Add deliveries / rating if traveler
+    const deliveries = role === "requester" ? "--" : data.deliveries || "--";
+    const rating = role === "requester" ? "--" : data.rating || "--";
+    const joinedDate = new Date(data.createdAt).toLocaleDateString();
+
+    document.querySelector(".rating").innerHTML = `⭐ ${rating} (${deliveries} deliveries)`;
+    document.querySelector(".joined").textContent = `📅 Joined ${joinedDate}`;
+
+    // ✅ Fill performance stats (manually if requester)
+    const statsSection = document.querySelector(".card.performance ul");
+    if (role === "requester") {
+      statsSection.innerHTML = `
+        <li><strong>Total Deliveries:</strong> 23</li>
+        <li><strong>Average Rating:</strong> 4.8</li>
+        <li><strong>Successful Requests:</strong> 15</li>
+        <li><strong>Response Time:</strong> < 2hrs</li>
+      `;
+    } else {
+      statsSection.innerHTML = `
+        <li><strong>Total Deliveries:</strong> ${data.deliveries || 0}</li>
+        <li><strong>Average Rating:</strong> ${data.rating || "--"}</li>
+        <li><strong>Successful Requests:</strong> ${data.successful || 0}</li>
+        <li><strong>Response Time:</strong> ${data.responseTime || "< 2hrs"}</li>
+      `;
+    }
+
+    // ✅ Reviews based on role
+    const reviewsContainer = document.querySelector(".card.reviews");
+    if (role === "requester") {
+      reviewsContainer.innerHTML = `
+        <h2>Traveler Reviews</h2>
+        <div class="review">
+          <p><strong>Yousef Johnson</strong> (⭐ 5)</p>
+          <p>Delivered the laptop on time, very professional!</p>
+          <span class="date">2/20/2025</span>
+        </div>
+        <div class="review">
+          <p><strong>Ali Reza</strong> (⭐ 4.5)</p>
+          <p>Great communication and arrived early. Will book again.</p>
+          <span class="date">2/12/2025</span>
+        </div>
+      `;
+    } else {
+      reviewsContainer.innerHTML = `
+        <h2>Requester Reviews</h2>
+        <div class="review">
+          <p><strong>Mohamed Rodriguez</strong> (⭐ 5)</p>
+          <p>Easy pickup and very clear instructions.</p>
+          <span class="date">1/15/2025</span>
+        </div>
+        <div class="review">
+          <p><strong>Samir Patel</strong> (⭐ 4)</p>
+          <p>Pickup location was tricky, but request was clear.</p>
+          <span class="date">1/10/2025</span>
+        </div>
+      `;
+    }
+  } catch (err) {
+    console.error("Error loading profile:", err);
+  }
+});
+</script>
+
 </body>
 </html>

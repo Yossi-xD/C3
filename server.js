@@ -31,6 +31,8 @@ app.use(express.static(path.join(__dirname, "Client")));
 //Resquester_Request
 app.use("/api/requests", require("./routes/RequestRoutes"));
 
+app.use("/api/payments", require("./routes/paymentRoutes"));
+
 
 // Serve homepage
 app.get("/", (req, res) => {
