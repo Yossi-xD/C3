@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - C³</title>
+  <link rel="stylesheet" href="/dashboard Page/styles.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="logo-section">
+      <span class="logo-icon">📦</span>
+      <span class="logo-text">C³</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#" class="active">Dashboard</a>
+      <a href="../post delivery page/post-delivery.html">Post Delivery</a>
+      <a href="../Browse Requests/browse-requests.html" id="browse-link">Browse Requests</a>
+      <a href="../track delivery/track-delivery.html">Track Delivery</a>
+      <a href="../messages/index.html">Messages</a>
+      <a href="../profile/profile.html">Profile</a>
+      <a href="../payment page/payment.html">Payment</a>
+      <a href="../accessibility/accessibility.html">Accessibility</a>
+      <a href="../main/main.html">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Dashboard Content -->
+  <main class="dashboard">
+    <section class="dashboard-header">
+    <h1>Welcome back, <span id="userName" class="highlight">User</span>!</h1>
+      <p>Here's what's happening with your deliveries today.</p>
+    </section>
+
+    <!-- Top Stats -->
+    <div class="stats-grid">
+      <div class="stat-card"><p>Active Requests</p><h2>12</h2></div>
+      <div class="stat-card"><p>Completed Deliveries</p><h2>23</h2></div>
+      <div class="stat-card"><p>Rating</p><h2>4.8</h2></div>
+      <div class="stat-card"><p>Earnings</p><h2>$234</h2></div>
+    </div>
+
+    <!-- Quick Actions & Activity -->
+    <div class="grid-2">
+      <!-- Quick Actions -->
+      <div class="card">
+        <h3>Quick Actions</h3>
+        <button class="btn blue" onclick="location.href='../post delivery page/post-delivery.html'">Post New Request</button>
+        <button class="btn green" onclick="location.href='../Browse Requests/browse-requests.html'">Browse Delivery Opportunities</button>
+        <button class="btn purple" onclick="location.href='../track delivery/track-delivery.html'">Track Active Deliveries</button>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="card">
+        <h3>Recent Activity</h3>
+        <div class="activity-item">
+          <span>Delivered laptop to Yousef M.</span>
+          <span class="badge completed">completed</span>
+        </div>
+        <div class="activity-item">
+          <span>Posted request for art supplies</span>
+          <span class="badge active">active</span>
+        </div>
+        <div class="activity-item">
+          <span>New message from traveler Hamad D.</span>
+          <span class="badge unread">unread</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Chart Placeholder -->
+    <div class="card">
+      <h3>Delivery Performance</h3>
+      <div class="chart-placeholder">Performance chart would be displayed here</div>
+    </div>
+  </main>
+
+  <!-- Hide Browse Requests for Requester -->
+<script>
+  // ✅ Show welcome name dynamically
+  const userName = localStorage.getItem("userName") || "User";
+  const nameElement = document.getElementById("userName");
+  if (nameElement) {
+    nameElement.textContent = userName;
+  }
+
+  // ✅ Keep existing role logic
+  const role = localStorage.getItem("userRole");
+  if (!role) {
+    alert("No valid role found. Please login again.");
+    location.href = "../main/main.html";
+  }
+
+  const browseLink = document.getElementById("browse-link");
+  if (browseLink && role !== "traveler") {
+    browseLink.style.display = "none";
+  }
+
+  const browseButton = document.querySelector("button.btn.green");
+  if (browseButton && role !== "traveler") {
+    browseButton.style.display = "none";
+  }
+</script>
+
+
+
+
+</body>
+</html>

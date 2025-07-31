@@ -1,0 +1,157 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0f172a;
+  color: #cbd5e1;
+}
+
+a {
+  text-decoration: none;
+}
+/* Header */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #1e293b;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+}
+
+.nav-links a {
+  color: #cbd5e1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.accessibility-container {
+  padding: 30px;
+  max-width: 900px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.description {
+  color: #94a3b8;
+  margin-bottom: 30px;
+}
+
+.card {
+  background-color: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.card h2 {
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.setting {
+  margin-bottom: 20px;
+}
+
+.setting label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.setting input[type="range"] {
+  width: 100%;
+}
+
+.setting small {
+  color: #64748b;
+  display: block;
+  margin-top: 4px;
+}
+
+.setting-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.setting-toggle label {
+  font-weight: 500;
+}
+
+.setting-toggle input[type="checkbox"] {
+  transform: scale(1.2);
+}
+
+.shortcuts {
+  background-color: #1e40af;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  margin-top: 15px;
+}
+
+.key-map {
+  margin-bottom: 8px;
+}
+
+kbd {
+  background-color: #334155;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: monospace;
+  margin-right: 6px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.button-group button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 500;
+}
+
+.button-group button:hover {
+  background-color: #2563eb;
+}
+
+.compliance-box {
+  padding: 12px;
+  background-color: #16a34a;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.95rem;
+}

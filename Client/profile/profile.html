@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile</title>
+  <link rel="stylesheet" href="/profile/profile.css" />
+</head>
+<body>
+  <header class="main-header">
+    <div class="logo-section">
+      <span class="logo-icon">📦</span>
+      <span class="logo-text">C³</span>
+    </div>
+    <nav class="nav-links">
+      <a href="../Dashboard Page/dashboard.html">Dashboard</a>
+      <a href="../post delivery page/post-delivery.html">Post Delivery</a>
+      <a href="../Browse Requests/browse-requests.html">Browse Requests</a>
+      <a href="../track delivery/track-delivery.html">Track Delivery</a>
+      <a href="../messages/index.html">Messages</a>
+      <a href="../profile/profile.html"class="active">Profile</a>
+      <a href="../payment page/payment.html">Payment</a>
+      <a href="../accessibility/accessibility.html">Accessibility</a>
+      <a href="../main/main.html">Logout</a>
+    </nav>
+  </header>
+
+  <main class="profile-container">
+    <h1>My Profile</h1>
+    <p class="subheading">Manage your profile information and view your delivery history.</p>
+
+    <div class="profile-grid">
+      <section class="card profile-info">
+        <div class="section-header">
+          <h2>Basic Information</h2>
+          <button class="edit-btn">✎ Edit Profile</button>
+        </div>
+        <div class="user-details">
+          <div class="avatar">SY</div>
+          <div>
+            <h3> Hamad<span class="verified">✔️</span></h3>
+            <p class="rating">⭐ 4.8 (23 deliveries)</p>
+            <p class="joined">📅 Joined 1/15/2024</p>
+          </div>
+        </div>
+        <div class="info-list">
+          <p><strong>Full Name:</strong>  Hamad </p>
+          <p><strong>Email Address:</strong> admin@gmail</p>
+          <p><strong>Phone Number:</strong> +1 (555) 123-4567</p>
+          <p><strong>Location:</strong> San Francisco, CA</p>
+          <p><strong>Bio:</strong> Reliable community member who loves helping others with deliveries. Available most weekdays and weekends.</p>
+        </div>
+      </section>
+
+      <section class="card performance">
+        <h2>Performance Stats</h2>
+        <ul>
+          <li><strong>Total Deliveries:</strong> 23</li>
+          <li><strong>Average Rating:</strong> 4.8</li>
+          <li><strong>Successful Requests:</strong> 15</li>
+          <li><strong>Response Time:</strong> &lt; 2hrs</li>
+        </ul>
+      </section>
+
+      <section class="card verification">
+        <h2>Verification Status</h2>
+        <ul>
+          <li>Identity Verification <span class="verified-pill">Verified</span></li>
+          <li>Phone Verification <span class="verified-pill">Verified</span></li>
+          <li>Email Verification <span class="verified-pill">Verified</span></li>
+        </ul>
+      </section>
+
+      <section class="card reviews">
+        <h2>Reviews & Ratings</h2>
+        <div class="review">
+          <p><strong>Yousef Johnson</strong> (⭐ 5) <span class="role">as traveler</span></p>
+          <p>Hamad was incredibly professional and delivered my laptop safely and on time. Great communication throughout!</p>
+          <span class="date">1/20/2025</span>
+        </div>
+        <div class="review">
+          <p><strong>Hamad Chen</strong> (⭐ 4) <span class="role">as traveler</span></p>
+          <p>Good delivery service, item arrived as expected. Would recommend.</p>
+          <span class="date">1/18/2025</span>
+        </div>
+        <div class="review">
+          <p><strong>Mohamed Rodriguez</strong> (⭐ 5) <span class="role">as requester</span></p>
+          <p>Very clear instructions and easy pickup. Great person to work with!</p>
+          <span class="date">1/15/2025</span>
+        </div>
+      </section>
+
+      <section class="card quick-actions">
+        <h2>Quick Actions</h2>
+        <ul>
+          <li><a href="#">Download Delivery History</a></li>
+          <li><a href="#">Privacy Settings</a></li>
+          <li><a href="#">Account Settings</a></li>
+          <li><a href="#" class="danger">Deactivate Account</a></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

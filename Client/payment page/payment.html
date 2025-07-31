@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payments</title>
+  <link rel="stylesheet" href="/payment page/payment.css" />
+</head>
+<body>
+   <header class="main-header">
+    <div class="logo-section">
+      <span class="logo-icon">📦</span>
+      <span class="logo-text">C³</span>
+    </div>
+    <nav class="nav-links">
+      <a href="../Dashboard Page/dashboard.html">Dashboard</a>
+      <a href="../post delivery page/post-delivery.html">Post Delivery</a>
+      <a href="../Browse Requests/browse-requests.html">Browse Requests</a>
+      <a href="../track delivery/track-delivery.html">Track Delivery</a>
+      <a href="../messages/index.html">Messages</a>
+      <a href="../profile/profile.html">Profile</a>
+      <a href="../payment page/payment.html"class="active">Payment</a>
+      <a href="../accessibility/accessibility.html">Accessibility</a>
+      <a href="../main/main.html">Logout</a>
+    </nav>
+  </header>
+
+  <main class="payments-container">
+    <h1>Manage Your Earnings</h1>
+    <p class="subheading">Manage your payment methods and track your earnings from deliveries.</p>
+
+    <div class="tabs">
+      <span class="tab active">Overview</span>
+      <span class="tab">Payment History</span>
+      <span class="tab">Payment Methods</span>
+      <span class="tab">Settings</span>
+    </div>
+
+    <div class="summary-cards">
+      <div class="card">
+        <h3>Total Earnings</h3>
+        <p class="amount">$25.00</p>
+        <span class="icon green">$</span>
+      </div>
+      <div class="card">
+        <h3>Pending</h3>
+        <p class="amount">$50.50</p>
+        <span class="icon yellow">⏱️</span>
+      </div>
+      <div class="card">
+        <h3>This Month</h3>
+        <p class="amount">$75.50</p>
+        <span class="icon blue">✔️</span>
+      </div>
+    </div>
+
+    <div class="recent-payments card">
+      <h2>Recent Payments</h2>
+      <div class="payment-row">
+        <div class="info">
+          <p>✔️ Delivery DEL-001</p>
+          <small>1/22/2025</small>
+        </div>
+        <div class="status">
+          <span class="amount">$25.00</span>
+          <span class="badge completed">completed</span>
+        </div>
+      </div>
+      <div class="payment-row">
+        <div class="info">
+          <p>⏱️ Delivery DEL-002</p>
+          <small>1/22/2025</small>
+        </div>
+        <div class="status">
+          <span class="amount">$35.00</span>
+          <span class="badge held">held</span>
+        </div>
+      </div>
+      <div class="payment-row">
+        <div class="info">
+          <p>⏱️ Delivery DEL-003</p>
+          <small>1/21/2025</small>
+        </div>
+        <div class="status">
+          <span class="amount">$15.50</span>
+          <span class="badge pending">pending</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

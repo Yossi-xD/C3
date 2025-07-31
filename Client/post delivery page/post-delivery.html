@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post Delivery Request</title>
+  <link rel="stylesheet" href="/post delivery page/styles.css" />
+</head>
+<body class="dark">
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="logo-section">
+      <span class="logo-icon">📦</span>
+      <span class="logo-text">C³</span>
+    </div>
+    <nav class="nav-links">
+      <a href="../Dashboard Page/dashboard.html">Dashboard</a>
+      <a href="../post delivery page/post-delivery.html"class="active">Post Delivery</a>
+      <a href="../Browse Requests/browse-requests.html">Browse Requests</a>
+      <a href="../track delivery/track-delivery.html">Track Delivery</a>
+      <a href="../messages/index.html">Messages</a>
+      <a href="../profile/profile.html">Profile</a>
+      <a href="../payment page/payment.html">Payment</a>
+      <a href="../accessibility/accessibility.html">Accessibility</a>
+      <a href="../main/main.html">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Page Content -->
+  <main class="container">
+    <h2 class="page-title">Post a Delivery Request</h2>
+    <p class="page-subtitle">
+      Provide details about your item and where it needs to go. The more information you provide, the better we can match you with the right traveler.
+    </p>
+
+    <form class="form">
+
+      <!-- Item Information -->
+      <div class="card">
+        <h3 class="section-title">📦 Item Information</h3>
+        <div class="row">
+          <input type="text" placeholder="Title *" required />
+          <select required>
+            <option disabled selected>Select Item Type</option>
+            <option>Electronics</option>
+            <option>Documents</option>
+            <option>Clothing</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <textarea placeholder="Description *" required></textarea>
+        <div class="row">
+          <select>
+            <option>Small (fits in a bag)</option>
+            <option>Medium (carry-on size)</option>
+            <option>Large (requires car)</option>
+          </select>
+          <input type="number" placeholder="Approximate Weight (lbs)" />
+        </div>
+      </div>
+
+      <!-- Pickup & Drop-off -->
+      <div class="card">
+        <h3 class="section-title">📍 Pickup & Drop-off Locations</h3>
+        <div class="row">
+          <textarea placeholder="Pickup Address *" required></textarea>
+          <textarea placeholder="Drop-off Address *" required></textarea>
+        </div>
+      </div>
+
+      <!-- Timing & Budget -->
+      <div class="card">
+        <h3 class="section-title">📅 Timing & Budget</h3>
+        <div class="row">
+          <input type="date" required />
+          <select>
+            <option>Low - Flexible</option>
+            <option selected>Medium - Within a few days</option>
+            <option>High - Urgent</option>
+          </select>
+          <input type="number" placeholder="Budget ($) *" required />
+        </div>
+      </div>
+
+      <!-- Special Instructions -->
+      <div class="card">
+        <h3 class="section-title">📝 Special Instructions (Optional)</h3>
+        <textarea placeholder="Write any instructions here..." rows="3"></textarea>
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-gray">Save as Draft</button>
+        <button type="submit" class="btn btn-blue">Post Delivery Request</button>
+      </div>
+
+    </form>
+  </main>
+<script>
+ document.querySelector("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("You must be logged in to post a request.");
+    return;
+  }
+
+  const form = e.target;
+  const BASE_URL = "http://localhost:5000";
+
+  const request = {
+    title: form.querySelector("input[placeholder='Title *']").value.trim(),
+    description: form.querySelector("textarea[placeholder='Description *']").value.trim(),
+    size: form.querySelectorAll("select")[1].value,
+    weight: form.querySelector("input[placeholder='Approximate Weight (lbs)']").value,
+    pickup: form.querySelector("textarea[placeholder='Pickup Address *']").value.trim(),
+    dropoff: form.querySelector("textarea[placeholder='Drop-off Address *']").value.trim(),
+    date: form.querySelector("input[type='date']").value,
+    urgency: form.querySelectorAll("select")[2].value,
+    payment: form.querySelector("input[placeholder='Budget ($) *']").value,
+    notes: form.querySelector("textarea[placeholder*='instructions']").value.trim()
+  };
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/requests`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(request)
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("✅ Request posted successfully!");
+      location.href = "../Browse Requests/browse-requests.html";
+    } else {
+      alert("❌ Error: " + data.message);
+    }
+  } catch (err) {
+    console.error("❌ Post failed:", err);
+    alert("Something went wrong.");
+  }
+});
+
+</script>
+
+
+</body>
+</html>

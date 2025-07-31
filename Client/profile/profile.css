@@ -1,0 +1,161 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0f172a;
+  color: #cbd5e1;
+}
+a {
+  text-decoration: none;
+}
+/* Header */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #1e293b;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+}
+
+.nav-links a {
+  color: #cbd5e1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.profile-container {
+  padding: 30px;
+}
+
+.profile-container h1 {
+  margin-bottom: 5px;
+  font-size: 2rem;
+}
+
+.subheading {
+  color: #94a3b8;
+  margin-bottom: 25px;
+}
+
+.profile-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+}
+
+.card {
+  background-color: #1e293b;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-btn {
+  background-color: #3b82f6;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.user-details {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.verified {
+  color: #22c55e;
+  font-size: 1rem;
+}
+
+.info-list p {
+  margin: 5px 0;
+}
+
+.performance ul,
+.verification ul,
+.quick-actions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.performance li,
+.verification li,
+.quick-actions li {
+  margin: 10px 0;
+}
+
+.verified-pill {
+  background-color: #22c55e;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 10px;
+}
+
+.reviews .review {
+  margin-bottom: 15px;
+  border-top: 1px solid #334155;
+  padding-top: 10px;
+}
+
+.review .role {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.review .date {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.quick-actions a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.quick-actions .danger {
+  color: #ef4444;
+}

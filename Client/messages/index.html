@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Messages Page</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="/messages/stylesheet" />
+  
+  
+  <header class="main-header">
+    <div class="logo-section">
+      <span class="logo-icon">📦</span>
+      <span class="logo-text">C³</span>
+    </div>
+    <nav class="nav-links">
+      <a href="../Dashboard Page/dashboard.html">Dashboard</a>
+      <a href="../post delivery page/post-delivery.html">Post Delivery</a>
+      <a href="../Browse Requests/browse-requests.html">Browse Requests</a>
+      <a href="../track delivery/track-delivery.html">Track Delivery</a>
+      <a href="../messages/index.html"class="active">Messages</a>
+      <a href="../profile/profile.html">Profile</a>
+      <a href="../payment page/payment.html">Payment</a>
+      <a href="../accessibility/accessibility.html">Accessibility</a>
+      <a href="../main/main.html">Logout</a>
+    </nav>
+  </header>
+
+    <main class="main-content">
+  <aside class="sidebar">
+    <h1>Messages</h1>
+    <p class="subtitle">Communicate securely with requesters and travelers about your deliveries.</p>
+    <input type="search" placeholder="Search conversations..." class="search" />
+
+    <div class="conversation-list">
+      <div class="conversation active">
+        <div class="avatar">YT</div>
+        <div class="conversation-info">
+          <div class="name">Yousef Thompson</div>
+          <div class="message-preview">Perfect! I'll pick up the laptop around 1 PM.</div>
+          <span class="status active-label">active</span>
+        </div>
+        <div class="time">2:15 PM</div>
+      </div>
+
+      <div class="conversation">
+        <div class="avatar">HJ</div>
+        <div class="conversation-info">
+          <div class="name">Hamad Johnson</div>
+          <div class="message-preview">Thank you for the quick delivery!</div>
+          <span class="status completed-label">completed</span>
+        </div>
+        <div class="time">Yesterday</div>
+      </div>
+
+      <div class="conversation">
+        <div class="avatar">MC</div>
+        <div class="conversation-info">
+          <div class="name">Mohamed Chen</div>
+          <div class="message-preview">Hi! I saw your delivery request for art supplies...</div>
+          <span class="status pending-label">pending</span>
+        </div>
+        <div class="time">2 days ago</div>
+        <div class="unread-count">2</div>
+      </div>
+    </div>
+  </aside>
+
+  <section class="chat-window">
+    <header class="chat-header">
+      <div class="avatar circle">YT</div>
+      <div>
+        <div class="chat-name">Yousef Thompson</div>
+        <div class="chat-subtitle">Delivery: DEL-001</div>
+      </div>
+      <div class="chat-icons">
+        <button title="Call">📞</button>
+        <button title="Video Call">🎥</button>
+        <button title="More">⋮</button>
+      </div>
+    </header>
+
+    <div class="chat-messages">
+      <div class="message received">
+        <p>Hi! <strong>I can help deliver your laptop. I'm traveling from your area to downtown today.</strong></p>
+        <span class="time">03:30 PM</span>
+      </div>
+      <div class="message sent">
+        <p>That would be perfect! What time works best for pickup?</p>
+        <span class="time">03:32 PM</span>
+      </div>
+      <div class="message received">
+        <p>I can pick it up around 1 PM if that works for you. I'll be careful with it.</p>
+        <span class="time">03:35 PM</span>
+      </div>
+      <div class="message sent">
+        <p>Perfect! I'll have it ready. It's in the original packaging.</p>
+        <span class="time">03:37 PM</span>
+      </div>
+      <div class="message received">
+        <p>Perfect! I'll pick up the laptop around 1 PM.</p>
+        <span class="time">04:15 PM</span>
+      </div>
+    </div>
+
+    <form class="chat-input">
+      <button class="attach-btn" title="Attach">📎</button>
+      <input type="text" placeholder="Type your message..." />
+      <button class="send-btn" type="submit" title="Send">➤</button>
+    </form>
+  </section>
+</main>
+  </div>
+</body>
+</html>

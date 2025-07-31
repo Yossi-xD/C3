@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Track Your Delivery - C³</title>
+  <link rel="stylesheet" href="/track delivery/track-delivery.css" />
+</head>
+<body>
+  <header class="main-header">
+    <div class="logo-section">
+      <span class="logo-icon">📦</span>
+      <span class="logo-text">C³</span>
+    </div>
+    <nav class="nav-links">
+      <a href="../Dashboard Page/dashboard.html">Dashboard</a>
+      <a href="../post delivery page/post-delivery.html">Post Delivery</a>
+      <a href="../Browse Requests/browse-requests.html">Browse Requests</a>
+      <a href="../track delivery/track-delivery.html"class="active">Track Delivery</a>
+      <a href="../messages/index.html">Messages</a>
+      <a href="../profile/profile.html">Profile</a>
+      <a href="../payment page/payment.html">Payment</a>
+      <a href="../accessibility/accessibility.html">Accessibility</a>
+      <a href="../main/main.html">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Track Your Delivery</h1>
+    <p class="subtitle">Real-time updates on your delivery progress.</p>
+
+    <section class="tracking-container">
+      <div class="delivery-status-card">
+        <header>
+          <h2>Laptop delivery to downtown office</h2>
+          <span class="status-badge in-transit">In Transit</span>
+          <div class="delivery-id">Delivery ID: DEL-001</div>
+        </header>
+        <ol class="status-timeline">
+          <li class="completed">
+            <div class="status-header">
+              <span class="status-icon success">✔️</span>
+              <span class="status-title">Request Accepted</span>
+            </div>
+            <div class="status-desc">Traveler accepted your delivery request</div>
+            <time>12:45 PM</time>
+          </li>
+          <li class="completed">
+            <div class="status-header">
+              <span class="status-icon success">✔️</span>
+              <span class="status-title">Item Picked Up</span>
+            </div>
+            <div class="status-desc">Item collected from pickup location</div>
+            <time>1:15 PM</time>
+          </li>
+          <li class="current">
+            <div class="status-header">
+              <span class="status-icon transit">🚚</span>
+              <span class="status-title">In Transit</span>
+            </div>
+            <div class="status-desc">Item is on the way to destination</div>
+            <time>Current</time>
+          </li>
+          <li class="pending">
+            <div class="status-header">
+              <span class="status-icon pending">4</span>
+              <span class="status-title">Delivered</span>
+            </div>
+            <div class="status-desc">Item delivered successfully</div>
+            <time>Est. 2:30 PM</time>
+          </li>
+        </ol>
+      </div>
+
+      <div class="sidebar">
+        <section class="traveler-info">
+          <h3>Your Traveler</h3>
+          <div class="traveler-profile">
+            <div class="traveler-avatar">YT</div>
+            <div class="traveler-details">
+              <div class="traveler-name">Yousef Thompson</div>
+              <div class="traveler-rating">⭐ 4.9 (127 deliveries)</div>
+            </div>
+          </div>
+          <button class="btn green-btn">📞 Call Traveler</button>
+          <button class="btn outline-btn">💬 Send Message</button>
+        </section>
+
+        <section class="delivery-details">
+          <h3>Delivery Details</h3>
+          <dl>
+            <dt>Pickup Time</dt>
+            <dd>1:15 PM</dd>
+            <dt>Destination</dt>
+            <dd>456 Business Ave, San Francisco, CA 94105</dd>
+            <dt>Estimated Arrival</dt>
+            <dd>2:30 PM</dd>
+          </dl>
+        </section>
+
+        <section class="quick-actions">
+          <h3>Quick Actions</h3>
+          <ul>
+            <li><a href="#">View Full Delivery History</a></li>
+            <li><a href="#">Download Receipt</a></li>
+            <li><a href="#" class="report-issue">Report an Issue</a></li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <section class="live-location">
+      <h3>🛩️ Live Location</h3>
+      <div class="map-placeholder" aria-label="Interactive map showing current delivery location">
+        <div class="map-icon">📍</div>
+        <p>Interactive map would be displayed here</p>
+        <p class="location-text">Current location: Business Ave &amp; Main Street</p>
+      </div>
+      <div class="eta-info">
+        <span>ETA: 2:30 PM</span>
+        <span class="on-schedule">✔️ On schedule</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

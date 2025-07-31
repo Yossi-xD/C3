@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Courier Connection</title>
+  <link rel="stylesheet" href="/main/main.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="your-logo.png" alt="C³ Logo">
+      <span>C³</span>
+    </div>
+    <button class="login-btn" onclick="openLogin()">Sign In</button>
+  </header>
+
+  <!-- Main Section -->
+  <main class="hero">
+    <h1>Community Courier Connection</h1>
+    <p>Connect with your community for peer-to-peer deliveries. Safe, affordable,<br>
+       and efficient item transport when you need it.</p>
+
+    <div class="features">
+      <div class="feature-box">
+        <img src="icon-post.png" alt="Post Requests">
+        <h3>Post Requests</h3>
+        <p>Easily post what you need delivered with pickup and drop-off details</p>
+      </div>
+      <div class="feature-box">
+        <img src="icon-earn.png" alt="Earn Money">
+        <h3>Earn Money</h3>
+        <p>Make money by delivering items on your existing travel routes</p>
+      </div>
+      <div class="feature-box">
+        <img src="icon-community.png" alt="Build Community">
+        <h3>Build Community</h3>
+        <p>Connect with verified community members and build trust through ratings</p>
+      </div>
+    </div>
+
+    <button class="get-started-btn" onclick="openLogin()">Get Started Today</button>
+  </main>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeLogin()">&times;</span>
+      <h2>Welcome Back</h2>
+      <form id="loginForm">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="Enter your email" required />
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your password" required />
+
+        <button type="submit">Sign In</button>
+        <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+      </form>
+    </div>
+  </div>
+
+<script>
+  function openLogin() {
+    document.getElementById("loginModal").style.display = "block";
+  }
+
+  function closeLogin() {
+    document.getElementById("loginModal").style.display = "none";
+  }
+
+  window.onclick = function (event) {
+    const modal = document.getElementById("loginModal");
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  // ✅ Handle login with token + name storage
+  document.getElementById("loginForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        // ✅ Store all user info
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userRole", data.user.role);
+        localStorage.setItem("userEmail", data.user.email);
+        localStorage.setItem("userName", data.user.name); // ✅ Add this
+
+        // ✅ Redirect
+        window.location.href = "../Dashboard Page/dashboard.html";
+      } else {
+        const errorText = await response.text();
+        alert("Login failed: " + errorText);
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      alert("Server error. Try again later.");
+    }
+  });
+</script>
+
+
+</body>
+</html>

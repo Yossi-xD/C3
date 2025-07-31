@@ -1,0 +1,267 @@
+a {
+  text-decoration: none;
+}
+
+/* Header */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #1e293b;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+}
+
+.nav-links a {
+  color: #cbd5e1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Body & Main */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0f172a;
+  color: #cbd5e1;
+}
+main {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Headings */
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #f1f5f9;
+}
+p.subtitle {
+  margin-top: 0;
+  margin-bottom: 28px;
+  color: #94a3b8;
+  font-size: 15px;
+}
+
+/* Filters bar */
+.filters {
+  display: flex;
+  gap: 15px;
+  background-color: #1e293b;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+.filters input[type="search"] {
+  flex: 1;
+  background-color: #334155;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 14px;
+}
+.filters select {
+  background-color: #334155;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 14px;
+  cursor: pointer;
+  min-width: 130px;
+}
+
+/* Delivery Request Cards */
+.request-card {
+  background-color: #1e293b;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px rgb(59 130 246 / 0.2);
+}
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.request-title {
+  font-weight: 700;
+  font-size: 18px;
+  color: #f1f5f9;
+  flex: 1;
+  min-width: 200px;
+}
+.request-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 13px;
+  color: #94a3b8;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.request-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Urgency badges */
+.urgency-badge {
+  padding: 3px 9px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.urgency-high {
+  background-color: #ef4444;
+}
+.urgency-medium {
+  background-color: #fbbf24;
+  color: #1e293b;
+}
+
+/* Earnings text */
+.earnings {
+  font-weight: 700;
+  font-size: 20px;
+  color: #22c55e;
+  margin-left: 15px;
+  white-space: nowrap;
+}
+.earnings small {
+  font-weight: 400;
+  font-size: 12px;
+  color: #94a3b8;
+  display: block;
+  margin-top: -4px;
+}
+
+/* Description text */
+.request-desc {
+  color: #cbd5e1;
+  font-size: 14px;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+/* Pickup/Dropoff info */
+.locations {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+.locations div {
+  min-width: 220px;
+}
+.locations strong {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.pickup {
+  color: #22c55e;
+}
+.dropoff {
+  color: #ef4444;
+}
+
+/* Footer row with size and preferred date */
+.footer-row {
+  display: flex;
+  gap: 18px;
+  font-size: 13px;
+  color: #94a3b8;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.footer-row span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Buttons */
+.btn-group {
+  margin-top: 14px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+button {
+  background-color: #3b82f6;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+button:hover {
+  background-color: #2563eb;
+}
+button.secondary {
+  background-color: #475569;
+}
+button.secondary:hover {
+  background-color: #334155;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .locations {
+    flex-direction: column;
+  }
+  .footer-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .request-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .btn-group {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}

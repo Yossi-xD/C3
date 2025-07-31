@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accessibility Settings</title>
+  <link rel="stylesheet" href="/accessibility/accessibility.css" />
+</head>
+<body>
+   <header class="main-header">
+    <div class="logo-section">
+      <span class="logo-icon">📦</span>
+      <span class="logo-text">C³</span>
+    </div>
+    <nav class="nav-links">
+      <a href="../Dashboard Page/dashboard.html">Dashboard</a>
+      <a href="../post delivery page/post-delivery.html">Post Delivery</a>
+      <a href="../Browse Requests/browse-requests.html">Browse Requests</a>
+      <a href="../track delivery/track-delivery.html">Track Delivery</a>
+      <a href="../messages/index.html">Messages</a>
+      <a href="../profile/profile.html">Profile</a>
+      <a href="../payment page/payment.html">Payment</a>
+      <a href="../accessibility/accessibility.html"class="active">Accessibility</a>
+      <a href="../main/main.html">Logout</a>
+    </nav>
+  </header>
+
+  <main class="accessibility-container">
+    <h1>Accessibility Settings</h1>
+    <p class="description">Customize the interface to meet your accessibility needs. These settings help make C³ easier to use for everyone.</p>
+
+    <!-- Visual Settings -->
+    <section class="card">
+      <h2>🎨 Visual Settings</h2>
+
+      <div class="setting">
+        <label for="font-size">Font Size: <span id="font-size-label">15px</span></label>
+        <input type="range" id="font-size" min="12" max="24" value="15">
+        <small>Adjust the size of text throughout the application (12px to 24px)</small>
+      </div>
+
+      <div class="setting-toggle">
+        <label>High Contrast Mode</label>
+        <input type="checkbox">
+      </div>
+
+      <div class="setting-toggle">
+        <label>Reduce Motion</label>
+        <input type="checkbox">
+      </div>
+    </section>
+
+    <!-- Navigation Settings -->
+    <section class="card">
+      <h2>⌨️ Navigation Settings</h2>
+      <div class="setting-toggle">
+        <label>Enhanced Keyboard Navigation</label>
+        <input type="checkbox" checked>
+      </div>
+
+      <div class="shortcuts">
+        <div class="key-map"><kbd>Tab</kbd> - Navigate forward</div>
+        <div class="key-map"><kbd>Shift</kbd> + <kbd>Tab</kbd> - Navigate backward</div>
+        <div class="key-map"><kbd>Enter</kbd> - Activate button/link</div>
+        <div class="key-map"><kbd>Escape</kbd> - Close modal/menu</div>
+      </div>
+    </section>
+
+    <!-- Audio Settings -->
+    <section class="card">
+      <h2>🔊 Audio Settings</h2>
+      <div class="setting-toggle">
+        <label>Screen Reader Support</label>
+        <input type="checkbox">
+      </div>
+      <div class="setting-toggle">
+        <label>Voice Announcements</label>
+        <input type="checkbox">
+      </div>
+    </section>
+
+    <!-- Help Section -->
+    <section class="card">
+      <h2>📘 Help & Resources</h2>
+      <div class="button-group">
+        <button>Contact Support</button>
+        <button>View Guide</button>
+        <button>Reset to Defaults</button>
+      </div>
+      <div class="compliance-box">
+        C³ is designed to meet WCAG 2.1 Level AA accessibility standards. We continuously work to improve accessibility for all users.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
