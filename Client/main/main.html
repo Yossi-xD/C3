@@ -78,7 +78,7 @@
     }
   };
 
-  // ✅ Handle login with token + name storage
+  // ✅ Handle login with token + user info
   document.getElementById("loginForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
@@ -95,13 +95,13 @@
       if (response.ok) {
         const data = await response.json();
 
-        // ✅ Store all user info
+        // ✅ Store all required info
         localStorage.setItem("token", data.token);
         localStorage.setItem("userRole", data.user.role);
         localStorage.setItem("userEmail", data.user.email);
-        localStorage.setItem("userName", data.user.name); // ✅ Add this
+        localStorage.setItem("userName", data.user.name);
+        localStorage.setItem("userId", data.user._id); // ✅ ADDED THIS!
 
-        // ✅ Redirect
         window.location.href = "../Dashboard Page/dashboard.html";
       } else {
         const errorText = await response.text();
@@ -113,7 +113,6 @@
     }
   });
 </script>
-
 
 </body>
 </html>

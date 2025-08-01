@@ -3,17 +3,28 @@ const Payment = require("../models/paymentModel");
 
 const createRequest = async (req, res) => {
   try {
-    const { title, description, region, payment } = req.body;
+    const {
+  title,
+  description,
+  region,
+  payment,
+  productLocation,
+  userLocation
+} = req.body;
 
-    const newRequest = new Request({
-      title,
-      description,
-      region,
-      payment,
-      status: "pending",
-      email: req.user.email,
-      createdBy: req.user._id
-    });
+
+   const newRequest = new Request({
+  title,
+  description,
+  region,
+  payment,
+  productLocation,
+  userLocation,
+  status: "pending",
+  email: req.user.email,
+  createdBy: req.user._id
+});
+
 
     await newRequest.save();
 
@@ -21,7 +32,8 @@ const createRequest = async (req, res) => {
       title,
       amount: payment,
       status: "Pending",
-      email: req.user.email
+      email: req.user.email,
+      requestId: newRequest._id  // ✅ Link to request
     });
 
     await newPayment.save();
@@ -110,7 +122,8 @@ const acceptRequest = async (req, res) => {
     const request = await Request.findById(req.params.id);
     if (!request) return res.status(404).json({ message: "Request not found" });
 
-    request.status = "accepted"; // 🔥 FIXED
+    request.status = "accepted";
+    request.assignedTo = req.user._id; // ✅ Link to the traveler
     await request.save();
     res.json({ message: "Request accepted", request });
   } catch (err) {
@@ -118,18 +131,34 @@ const acceptRequest = async (req, res) => {
   }
 };
 
+
 const markDelivered = async (req, res) => {
   try {
     const request = await Request.findById(req.params.id);
     if (!request) return res.status(404).json({ message: "Request not found" });
 
-    request.status = "done"; // ✅ Mark done instead of delivered
+    // ✅ Only the assigned traveler can mark as delivered
+    if (request.assignedTo?.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    // ✅ Update request status
+    request.status = "delivered";
     await request.save();
-    res.json({ message: "Request marked as done", request });
+
+    // ✅ Update payment status to Done
+    await Payment.findOneAndUpdate(
+      { requestId: request._id },
+      { status: "Done" }
+    );
+
+    res.json({ message: "Marked as delivered", request });
   } catch (err) {
-    res.status(500).json({ message: "Error marking as done" });
+    console.error("❌ Error marking as delivered:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
+
 
 
 

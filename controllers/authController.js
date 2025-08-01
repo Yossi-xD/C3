@@ -2,20 +2,15 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 
-
-
 const mongoose = require("mongoose");
 
 exports.showDBName = async (req, res) => {
   res.json({ currentDatabase: mongoose.connection.name });
 };
 
-
-
 // REGISTER USER
 exports.registerUser = async (req, res) => {
   const { name, email, password, role } = req.body;
-
 
   try {
     const existing = await User.findOne({ email: email.toLowerCase() });
@@ -23,7 +18,6 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -53,7 +47,6 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-
 // LOGIN USER
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -64,12 +57,7 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials (email)" });
     }
 
-    console.log("🔍 Incoming Password:", password);
-    console.log("🔐 Stored Hash:", user.password);
-
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log("🔑 Password Match?", isMatch);
-
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials (password)" });
     }
@@ -80,7 +68,7 @@ exports.loginUser = async (req, res) => {
     res.json({
       message: "Login successful",
       token,
-      user: userWithoutPassword,
+      user: userWithoutPassword, // ✅ frontend should extract user._id and store it in localStorage as 'userId'
     });
   } catch (err) {
     console.error("Login error:", err);
@@ -88,25 +76,19 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-
-// authController.js
+// GET ALL USERS
 exports.debugUsers = async (req, res) => {
   const users = await User.find().select("-password");
   res.json(users);
 };
 
-
-
-// 🧹 DELETE user by email
+// DELETE user by email
 exports.deleteUser = async (req, res) => {
   try {
     const raw = req.params.email || "";
     const email = decodeURIComponent(raw).toLowerCase().trim();
 
-    console.log("Attempting to delete:", email); // debug
-
     const user = await User.findOneAndDelete({ email });
-
     if (!user) {
       return res.status(404).json({ message: "User not found", email });
     }
@@ -116,7 +98,3 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message || err });
   }
 };
-
-
-
-

@@ -99,10 +99,13 @@
   </main>
 <script>
   const token = localStorage.getItem("token");
-  const editData = JSON.parse(localStorage.getItem("editRequest"));
+  const userEmail = localStorage.getItem("userEmail");
+  const userId = localStorage.getItem("userId");
+  const rawEditData = localStorage.getItem("editRequest");
+  const editData = rawEditData ? JSON.parse(rawEditData) : null;
   const form = document.querySelector("form");
 
-  if (editData) {
+  if (editData && editData._id) {
     document.querySelector("input[placeholder='Title *']").value = editData.title || "";
     document.querySelector("textarea[placeholder='Description *']").value = editData.description || "";
     document.querySelectorAll("select")[1].value = editData.size || "Small (fits in a bag)";
@@ -128,16 +131,14 @@
       date: form.querySelector("input[type='date']").value,
       urgency: form.querySelectorAll("select")[2].value,
       payment: form.querySelector("input[placeholder='Budget ($) *']").value,
-      notes: form.querySelector("textarea[placeholder*='instructions']").value.trim()
+      notes: form.querySelector("textarea[placeholder*='instructions']").value.trim(),
+      email: userEmail,
+      createdBy: userId
     };
 
-    // Keep createdBy if editing
-    if (editData?.createdBy) {
-      request.createdBy = editData.createdBy;
-    }
-
-    const url = editData ? `/api/requests/${editData._id}` : `/api/requests`;
-    const method = editData ? "PUT" : "POST";
+    const isEdit = editData && editData._id;
+    const url = isEdit ? `/api/requests/${editData._id}` : `/api/requests`;
+    const method = isEdit ? "PUT" : "POST";
 
     try {
       const res = await fetch(url, {
@@ -152,11 +153,17 @@
       const data = await res.json();
 
       if (res.ok) {
-        alert(editData ? "✅ Request updated!" : "✅ Request posted!");
+        alert(isEdit ? "✅ Request updated!" : "✅ Request posted!");
         localStorage.removeItem("editRequest");
         location.href = "../Browse Requests/browse-requests.html";
       } else {
-        alert("❌ Error: " + data.message);
+        if (res.status === 404 && isEdit) {
+          alert("❌ Request no longer exists. Posting as new.");
+          localStorage.removeItem("editRequest");
+          location.reload();
+        } else {
+          alert("❌ Error: " + data.message);
+        }
       }
     } catch (err) {
       console.error("❌ Request failed:", err);

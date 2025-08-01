@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - C³</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/dashboard Page/styles.css" />
 </head>
 <body>
   <header class="main-header">
@@ -68,11 +68,12 @@
   const userName = localStorage.getItem("userName") || "User";
   const userRole = localStorage.getItem("userRole");
   const userEmail = localStorage.getItem("userEmail");
+  const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
 
   document.getElementById("userName").textContent = userName;
 
-  if (!userRole || !token || !userEmail) {
+  if (!userRole || !token || !userEmail || !userId) {
     alert("Session expired. Please log in again.");
     location.href = "../main/main.html";
   }
@@ -95,17 +96,17 @@
       }).then(res => res.json())
     ])
     .then(([payments, requests]) => {
-      const myRequests = requests.map(r => r.title);
+      const myRequestIds = requests
+        .filter(r => String(r.createdBy) === userId)
+        .map(r => String(r._id));
+
       const myPayments = payments.filter(p =>
-        (p.email === userEmail || p.createdBy?.email === userEmail)
+        myRequestIds.includes(String(p.requestId)) &&
+        (p.email === userEmail)
       );
 
-      const pending = myPayments.filter(p =>
-        p.status?.toLowerCase() === "pending" &&
-        myRequests.includes(p.title)
-      );
-
-      const totalSpent = pending.reduce((sum, p) => sum + (p.amount || 0), 0);
+      const pending = myPayments.filter(p => p.status?.toLowerCase() === "pending");
+      const totalSpent = myPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
 
       statsContainer.innerHTML = `
         <div class="stats-grid">
@@ -117,29 +118,52 @@
     })
     .catch(err => console.error("❌ Error loading requester dashboard:", err));
 
-  } else if (userRole === "traveler") {
-    statsContainer.innerHTML = `
-      <div class="stats-grid">
-        <div class="stat-card"><p>Active Requests</p><h2>0</h2></div>
-        <div class="stat-card"><p>Completed Deliveries</p><h2>0</h2></div>
-        <div class="stat-card"><p>Rating</p><h2>4.8</h2></div>
-        <div class="stat-card"><p>Earnings</p><h2>$0</h2></div>
-      </div>`;
+    } else if (userRole === "traveler") {
+    Promise.all([
+      fetch("/api/requests", {
+        headers: { Authorization: "Bearer " + token }
+      }).then(res => res.json()),
+      fetch("/api/payments", {
+        headers: { Authorization: "Bearer " + token }
+      }).then(res => res.json())
+    ])
+    .then(([requests, payments]) => {
+      const accepted = requests.filter(
+        r => r.status?.toLowerCase() === "accepted" && String(r.assignedTo) === userId
+      );
+      const delivered = requests.filter(
+        r => r.status?.toLowerCase() === "delivered" && String(r.assignedTo) === userId
+      );
+
+      const deliveredRequestIds = delivered.map(r => String(r._id));
+      const earnings = payments
+        .filter(p => deliveredRequestIds.includes(String(p.requestId)))
+        .reduce((sum, p) => sum + (p.amount || 0), 0);
+
+      statsContainer.innerHTML = `
+        <div class="stats-grid">
+          <div class="stat-card"><p>Active Requests</p><h2>${accepted.length}</h2></div>
+          <div class="stat-card"><p>Completed Deliveries</p><h2>${delivered.length}</h2></div>
+          <div class="stat-card"><p>Rating</p><h2>4.8</h2></div>
+          <div class="stat-card"><p>Earnings</p><h2>$${earnings}</h2></div>
+        </div>`;
+    })
+    .catch(err => {
+      console.error("❌ Error loading traveler dashboard:", err);
+    });
   }
 
-  const navLinks = document.querySelectorAll(".nav-links a");
 
-if (userRole === "traveler") {
-  // Hide "Post Delivery" from navbar for travelers
-  navLinks.forEach(link => {
-    if (link.textContent.trim() === "Post Delivery") {
-      link.style.display = "none";
-    }
-  });
-
-  // Hide "Post New Request" button from Quick Actions
-  document.querySelector(".quick-action-post")?.remove();
-}
+  
+  if (userRole === "traveler") {
+    // Hide "Post Delivery" link for travelers
+    const navLinks = document.querySelectorAll(".nav-links a");
+    navLinks.forEach(link => {
+      if (link.textContent.trim() === "Post Delivery") {
+        link.style.display = "none";
+      }
+    });
+  }
 
 </script>
 

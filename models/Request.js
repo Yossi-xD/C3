@@ -16,6 +16,11 @@ const requestSchema = new mongoose.Schema({
     enum: ["new", "pending", "accepted", "delivered", "done"],
     default: "new"
   },
+  assignedTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+  
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
