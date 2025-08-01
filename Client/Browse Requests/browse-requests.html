@@ -36,32 +36,7 @@
       <select><option>Newest First</option></select>
     </section>
 
-    <section id="requests-container">
-      <!-- Hardcoded example (always stays) -->
-      <article class="request-card">
-        <div class="request-header">
-          <div class="request-title">Art supplies for student</div>
-          <div class="request-meta">
-            <span>👤 Hamad</span>
-            <span>⭐ 4.9</span>
-            <span>📅 7/31/2025</span>
-          </div>
-        </div>
-        <p class="request-desc">Canvas, paints, and brushes from art store to university dorm.</p>
-        <div class="locations">
-          <div><strong class="pickup">📍 Pickup</strong> 789 Art Store Blvd, Berkeley, CA 94704</div>
-          <div><strong class="dropoff">📍 Drop-off</strong> UC Berkeley Dorms, Berkeley, CA 94720</div>
-        </div>
-        <div class="footer-row">
-          <span>📦 large (8 lbs)</span>
-          <span>📅 Preferred: 1/24/2025</span>
-          <span class="urgency-badge urgency-high">DONE ✅</span>
-        </div>
-        <div class="btn-group">
-          <button class="secondary">View Details</button>
-        </div>
-      </article>
-    </section>
+    <section id="requests-container"></section>
   </main>
 
 <script>
@@ -80,7 +55,9 @@
         const card = document.createElement("article");
         card.className = "request-card";
 
-        const showButtons = userRole === "requester";
+        const status = req.status?.toLowerCase();
+        const showRequesterButtons = userRole === "requester";
+        const showTravelerButtons = userRole === "traveler";
 
         card.innerHTML = `
           <div class="request-header">
@@ -99,14 +76,29 @@
           <div class="footer-row">
             <span>📦 size unknown</span>
             <span>📅 Preferred: unknown</span>
-            <span class="urgency-badge urgency-medium">NEW</span>
+          <span class="urgency-badge ${status}">${status?.toUpperCase() || "NEW"}</span>
           </div>
           <div class="btn-group">
             <button class="secondary">View Details</button>
-            ${showButtons ? `
+            ${showRequesterButtons ? `
               <button class="edit-btn" onclick='editRequest(${JSON.stringify(req)})'>Edit</button>
               <button class="danger" onclick="deleteRequest('${req._id}', this)">Cancel</button>
             ` : ""}
+            ${showTravelerButtons ? (() => {
+  if (status === "pending") {
+    return `
+      <button class="primary" onclick="acceptRequest('${req._id}', this)">Accept Request</button>
+      <button class="danger" onclick="denyRequest('${req._id}', this)">Deny</button>
+    `;
+  } else if (status === "accepted") {
+    return `
+      <button class="primary" onclick="markDelivered('${req._id}', this)">Mark as Delivered</button>
+    `;
+  } else {
+    return "";
+  }
+})() : ""}
+
           </div>
         `;
         container.prepend(card);
@@ -139,9 +131,70 @@
       });
   }
 
-  document.addEventListener("DOMContentLoaded", fetchRequests);
-</script>
+  function acceptRequest(id, btn) {
+    const token = localStorage.getItem("token");
+    fetch(`/api/requests/${id}/accept`, {
+      method: "PATCH",
+      headers: { Authorization: "Bearer " + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert("✅ Request accepted");
+      btn.closest(".request-card").querySelector(".urgency-badge").textContent = "ACCEPTED";
+      btn.closest(".btn-group").innerHTML = `<button class='primary' onclick="markDelivered('${id}', this)">Mark as Delivered</button>`;
+    })
+    .catch(err => alert("Error accepting request"));
+  }
 
+  function denyRequest(id, btn) {
+    const token = localStorage.getItem("token");
+    if (!confirm("Are you sure you want to deny this request?")) return;
+
+    fetch(`/api/requests/${id}/deny`, {
+      method: "PATCH",
+      headers: { Authorization: "Bearer " + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert("🚫 Request denied");
+      btn.closest(".request-card").querySelector(".urgency-badge").textContent = "PENDING";
+      btn.closest(".btn-group").innerHTML = `<button class='primary' onclick="acceptRequest('${id}', this)">Accept Request</button>`;
+    })
+    .catch(err => alert("Error denying request"));
+  }
+
+  document.addEventListener("DOMContentLoaded", fetchRequests);
+
+  const userRole = localStorage.getItem("userRole");
+  if (userRole === "traveler") {
+    const navLinks = document.querySelectorAll(".nav-links a");
+    navLinks.forEach(link => {
+      if (link.textContent.trim() === "Post Delivery") {
+        link.style.display = "none";
+      }
+    });
+  }
+
+
+
+  function markDelivered(id, btn) {
+  const token = localStorage.getItem("token");
+  fetch(`/api/requests/${id}/deliver`, {
+    method: "PATCH",
+    headers: { Authorization: "Bearer " + token }
+  })
+    .then(res => res.json())
+    .then(data => {
+      alert("📦 Marked as Delivered!");
+      const badge = btn.closest(".request-card").querySelector(".urgency-badge");
+      badge.textContent = "DELIVERED";
+      badge.className = "urgency-badge delivered";
+      btn.remove(); // Optional: hide button after click
+    })
+    .catch(err => alert("Error marking as delivered"));
+}
+
+</script>
 
 </body>
 </html>

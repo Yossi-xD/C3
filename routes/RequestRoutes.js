@@ -6,13 +6,16 @@ const {
   createRequest,
   getAllRequests,
   deleteRequest,
-  updateRequest
+  updateRequest,
+  acceptRequest,
+  markDelivered
 } = require("../controllers/requestController");
 
 router.post("/", protect, createRequest);
-router.get("/", protect, getAllRequests);  // ✅ protected route
-router.delete("/:id", protect, deleteRequest);  // ✅ secured with protect
+router.get("/", protect, getAllRequests);
+router.delete("/:id", protect, deleteRequest);
 router.put("/:id", protect, updateRequest);
-
+router.patch("/:id/accept", protect, acceptRequest);
+router.patch("/:id/deliver", protect, markDelivered);
 
 module.exports = router;

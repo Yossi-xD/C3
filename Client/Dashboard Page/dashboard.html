@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - C³</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/dashboard Page/styles.css" />
 </head>
 <body>
   <header class="main-header">
@@ -31,12 +31,7 @@
       <p>Here's what's happening with your deliveries today.</p>
     </section>
 
-    <div class="stats-grid">
-      <div class="stat-card"><p>Pending Requests</p><h2 id="pendingCount">0</h2></div>
-      <div class="stat-card"><p>Accepted Requests</p><h2 id="acceptedCount">-</h2></div>
-      <div class="stat-card"><p>Delivered Items</p><h2 id="deliveredCount">-</h2></div>
-      <div class="stat-card"><p>Total Spent</p><h2 id="totalSpent">$0</h2></div>
-    </div>
+    <div id="statsContainer"></div>
 
     <div class="grid-2">
       <div class="card">
@@ -82,6 +77,8 @@
     location.href = "../main/main.html";
   }
 
+  const statsContainer = document.getElementById("statsContainer");
+
   if (userRole === "requester") {
     document.querySelector(".quick-action-tracker")?.remove();
     document.querySelector(".performance-chart")?.remove();
@@ -89,7 +86,6 @@
       if (item.dataset.type === "delivery") item.remove();
     });
 
-    // 🔄 Fetch both requests and payments
     Promise.all([
       fetch("/api/payments", {
         headers: { Authorization: "Bearer " + token }
@@ -104,32 +100,48 @@
         (p.email === userEmail || p.createdBy?.email === userEmail)
       );
 
-      // ✅ Count only pending payments linked to real request titles
       const pending = myPayments.filter(p =>
         p.status?.toLowerCase() === "pending" &&
         myRequests.includes(p.title)
       );
 
-      const paid = myPayments.filter(p =>
-        p.status?.toLowerCase() === "paid"
-      );
-
       const totalSpent = pending.reduce((sum, p) => sum + (p.amount || 0), 0);
 
-      document.getElementById("pendingCount").textContent = pending.length;
-      document.getElementById("totalSpent").textContent = `$${totalSpent}`;
-
-      console.log("✅ Dashboard Loaded:", {
-        requests: myRequests,
-        pending,
-        totalSpent
-      });
+      statsContainer.innerHTML = `
+        <div class="stats-grid">
+          <div class="stat-card"><p>Pending Requests</p><h2>${pending.length}</h2></div>
+          <div class="stat-card"><p>Accepted Requests</p><h2>-</h2></div>
+          <div class="stat-card"><p>Delivered Items</p><h2>-</h2></div>
+          <div class="stat-card"><p>Total Spent</p><h2>$${totalSpent}</h2></div>
+        </div>`;
     })
-    .catch(err => console.error("❌ Error loading dashboard data:", err));
+    .catch(err => console.error("❌ Error loading requester dashboard:", err));
+
+  } else if (userRole === "traveler") {
+    statsContainer.innerHTML = `
+      <div class="stats-grid">
+        <div class="stat-card"><p>Active Requests</p><h2>0</h2></div>
+        <div class="stat-card"><p>Completed Deliveries</p><h2>0</h2></div>
+        <div class="stat-card"><p>Rating</p><h2>4.8</h2></div>
+        <div class="stat-card"><p>Earnings</p><h2>$0</h2></div>
+      </div>`;
   }
+
+  const navLinks = document.querySelectorAll(".nav-links a");
+
+if (userRole === "traveler") {
+  // Hide "Post Delivery" from navbar for travelers
+  navLinks.forEach(link => {
+    if (link.textContent.trim() === "Post Delivery") {
+      link.style.display = "none";
+    }
+  });
+
+  // Hide "Post New Request" button from Quick Actions
+  document.querySelector(".quick-action-post")?.remove();
+}
+
 </script>
-
-
 
 </body>
 </html>

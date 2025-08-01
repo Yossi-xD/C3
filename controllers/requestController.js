@@ -1,7 +1,6 @@
-const Request = require("../models/Request"); // ✅ matches the file name
-const Payment = require("../models/paymentModel"); // ✅ auto-payment
+const Request = require("../models/Request");
+const Payment = require("../models/paymentModel");
 
-// CREATE REQUEST + AUTO PAYMENT
 const createRequest = async (req, res) => {
   try {
     const { title, description, region, payment } = req.body;
@@ -11,13 +10,13 @@ const createRequest = async (req, res) => {
       description,
       region,
       payment,
+      status: "pending",
       email: req.user.email,
       createdBy: req.user._id
     });
 
     await newRequest.save();
 
-    // ✅ Automatically create a pending payment
     const newPayment = new Payment({
       title,
       amount: payment,
@@ -38,14 +37,12 @@ const createRequest = async (req, res) => {
   }
 };
 
-// GET REQUESTS BASED ON ROLE
-exports.getAllRequests = async (req, res) => {
+const getAllRequests = async (req, res) => {
   try {
     const userId = req.user._id;
     const userRole = req.user.role;
 
     let requests;
-
     if (userRole === "requester") {
       requests = await Request.find({ createdBy: userId }).sort({ createdAt: -1 });
     } else {
@@ -59,8 +56,7 @@ exports.getAllRequests = async (req, res) => {
   }
 };
 
-// DELETE REQUEST
-exports.deleteRequest = async (req, res) => {
+const deleteRequest = async (req, res) => {
   try {
     const id = req.params.id;
     const request = await Request.findById(id);
@@ -76,21 +72,14 @@ exports.deleteRequest = async (req, res) => {
       return res.status(403).json({ message: "Not authorized to delete this request" });
     }
 
-    // ✅ Also cancel matching payments
-    await Payment.updateMany(
-      { email: req.user.email, title: request.title },
-      { $set: { status: "Canceled" } }
-    );
-
     await request.deleteOne();
-    res.json({ message: "Request deleted successfully, related payments canceled." });
+    res.json({ message: "Request deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: "Error deleting request", error: err });
   }
 };
 
-// UPDATE REQUEST
-exports.updateRequest = async (req, res) => {
+const updateRequest = async (req, res) => {
   try {
     const id = req.params.id;
     const request = await Request.findById(id);
@@ -116,5 +105,39 @@ exports.updateRequest = async (req, res) => {
   }
 };
 
+const acceptRequest = async (req, res) => {
+  try {
+    const request = await Request.findById(req.params.id);
+    if (!request) return res.status(404).json({ message: "Request not found" });
+
+    request.status = "accepted"; // 🔥 FIXED
+    await request.save();
+    res.json({ message: "Request accepted", request });
+  } catch (err) {
+    res.status(500).json({ message: "Error accepting request" });
+  }
+};
+
+const markDelivered = async (req, res) => {
+  try {
+    const request = await Request.findById(req.params.id);
+    if (!request) return res.status(404).json({ message: "Request not found" });
+
+    request.status = "done"; // ✅ Mark done instead of delivered
+    await request.save();
+    res.json({ message: "Request marked as done", request });
+  } catch (err) {
+    res.status(500).json({ message: "Error marking as done" });
+  }
+};
+
+
+
 // EXPORTS
 exports.createRequest = createRequest;
+exports.getAllRequests = getAllRequests;
+exports.deleteRequest = deleteRequest;
+exports.updateRequest = updateRequest;
+exports.acceptRequest = acceptRequest;
+exports.markDelivered = markDelivered;
+

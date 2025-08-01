@@ -111,5 +111,18 @@
   </section>
 </main>
   </div>
+  <script>
+  const userRole = localStorage.getItem("userRole");
+
+  if (userRole === "traveler") {
+    // Hide "Post Delivery" link for travelers
+    const navLinks = document.querySelectorAll(".nav-links a");
+    navLinks.forEach(link => {
+      if (link.textContent.trim() === "Post Delivery") {
+        link.style.display = "none";
+      }
+    });
+  }
+</script>
 </body>
 </html>

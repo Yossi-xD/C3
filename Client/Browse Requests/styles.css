@@ -265,3 +265,42 @@ button.secondary:hover {
     flex-wrap: wrap;
   }
 }
+
+.urgency-accepted {
+  background-color: rgb(167, 145, 104);
+  color: white;
+}
+
+.urgency-badge {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: #444;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+/* Status-specific colors */
+.urgency-badge.pending {
+  background-color: #ff9800; /* orange */
+}
+
+.urgency-badge.accepted {
+  background-color: #2196f3; /* blue */
+}
+
+.urgency-badge.delivered {
+  background-color: #9c27b0; /* purple */
+}
+
+.urgency-badge.done {
+  background-color: #4caf50; /* green */
+}
+
+.urgency-badge.delivered {
+  background-color: #9c27b0;
+  color: #fff;
+  box-shadow: 0 0 5px #9c27b088;
+}
+

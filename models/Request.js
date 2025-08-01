@@ -13,7 +13,7 @@ const requestSchema = new mongoose.Schema({
   requestedDate: String,
   status: {
     type: String,
-    enum: ["new", "accepted", "denied"],
+    enum: ["new", "pending", "accepted", "delivered", "done"],
     default: "new"
   },
   createdBy: {
